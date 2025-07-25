@@ -1,4 +1,4 @@
-import { randomGarfDate } from './helpers';
+import { getGarf, randomGarfDate } from './helpers';
 /**
  * Welcome to Cloudflare Workers!
  *
@@ -17,9 +17,12 @@ import { randomGarfDate } from './helpers';
  */
 
 async function fetch(req: Request) {
-	const randomGarfDateValue = randomGarfDate().toString();
+	const randomGarfDateValue = randomGarfDate();
+	const comic = await getGarf(randomGarfDateValue);
 	return new Response(
-		`Random Garf Date: ${randomGarfDateValue}`
+		`comic for ${comic.date}:\n` +
+		`imageUrl: ${comic.imageUrl}\n` +
+		`altText: ${comic.altText}\n`
 	);
 }
 
